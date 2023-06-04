@@ -1,0 +1,67 @@
+---
+output: html_document
+title:  Shiny with reactive variables
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+---
+
+```{r inputs}
+textInput(inputId = "inp1a", label = "Give a title")
+
+sliderInput(
+  inputId = "inp2a",
+  label = "Choose the mean for X",
+  value = 0, min = -30, max = 30
+)
+```
+
+---
+
+```{r reactive variable}
+dt <- reactive({
+  m <- input$inp2a
+  X <- rnorm(10, mean = m)
+  Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+  data.frame(X, Y)
+})
+```
+
+
+## {.tabset}
+
+### `renderPrint()`
+
+```{r renderPrint2}
+renderPrint(dt())
+```
+
+---
+
+### `renderTable()`
+
+```{r renderTable}
+renderTable(dt(),
+  striped = TRUE,
+  align = "c"
+)
+```
+
+---
+
+### `renderPlot()`
+
+```{r renderPlot}
+renderPlot({
+  print(dt())
+  plot(Y ~ X, data = dt(), main = input$inp1a)
+})
+```
+
+---
+
+<br>

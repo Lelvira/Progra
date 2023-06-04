@@ -1,0 +1,85 @@
+---
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+ 
+```{r}
+title <- "Type a title"
+```
+
+#### How to use this app
+
+Start by choosing a number, say $\mu$, using the slider below labeled "_Choose a mean_" (default value $0$). 
+One done, two random samples of size $10$ each will be generated. 
+
+As a result, you get two tabs:
+
+* _**Data and Summary**_ with (i) the generated data frame, and (ii) its summary, and
+* _**Plot**_ with a Scatter plot of the data.  
+
+You can then introduce a title of your choice for the plot. 
+
+---
+
+```{r, UiInputs}
+
+textInput <- textInput(
+  inputId = "inp1a",
+  label = NULL,
+  placeholder = title
+)
+
+sliderInput <- sliderInput(
+  inputId = "inp2a",
+  label = "Choose a mean",
+  value = 0, min = -30, max = 30
+)
+```
+
+```{r, ReacVariables}
+dt <- reactive({
+  m <- input$inp2a
+  X <- rnorm(10, mean = m)
+  Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+  data.frame(X, Y)
+})
+```
+
+```{r, Outputs}
+TableOut <- renderTable(dt())
+PrintOut <- renderPrint(dt() |> summary())
+PlotOut <- renderPlot(plot(Y ~ X, data = dt(), main = input$inp1a))
+```
+
+```{r, Layout}
+sidebarPanel(
+  textInput,
+  sliderInput,
+)
+
+mainPanel(
+  tabsetPanel(
+    tabPanel(
+      title = "Data and Summary",
+      column(4, TableOut),
+      br(),
+      column(8, PrintOut)
+    ),
+    tabPanel(
+      title = "Plot",
+      PlotOut
+    )
+  )
+)
+```
+
+```{r, mean.dif}
+mean.dif <- renderText(round(mean(dt()$X) - mean(dt()$Y), 3))
+```
+
+Note that the different in the means between $X$ and $Y$ is 
+`r mean.dif`. 

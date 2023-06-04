@@ -1,0 +1,101 @@
+---
+output: html_document
+title:  Some Shiny rendering functions
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+---
+
+```{r inputs}
+textInput(inputId = "inp1a", label = "Give a title")
+
+sliderInput(
+  inputId = "inp2a",
+  label = "Choose the mean for X",
+  value = 0, min = -30, max = 30
+)
+```
+
+---
+
+## {.tabset}
+
+
+### `renderText()`
+
+---
+
+```{r renderText1}
+renderText(input$inp1a)
+```
+
+---
+
+The title introduced by the user is **_`r renderText(input$inp1a)`_**.
+
+---
+
+$X\sim N($`r renderText(input$inp2a)`$,1)$  and $Y=1+2X+ \epsilon$, $\epsilon\sim(0,0.2^2)$.
+
+---
+
+### `renderPrint()`
+
+---
+
+Le titre du texte est :
+
+```{r renderPrint1}
+renderPrint(input$inp1a)
+```
+
+---
+
+```{r renderPrint2}
+renderPrint({
+  m <- input$inp2a
+  X <- rnorm(10, mean = m)
+  Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+  data.frame(X, Y)
+})
+```
+
+---
+
+### `renderTable()`
+
+```{r renderTable}
+renderTable(
+  {
+    m <- input$inp2a
+    X <- rnorm(10, mean = m)
+    Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+    data.frame(X, Y)
+  },
+  striped = TRUE,
+  align = "c"
+)
+```
+
+---
+
+### `renderPlot()`
+
+```{r renderPlot}
+renderPlot({
+  m <- input$inp2a
+  X <- rnorm(10, mean = m)
+  Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+  dt <- data.frame(X, Y)
+  print(dt)
+  plot(Y ~ X, data = dt, main = input$inp1a)
+})
+```
+
+---
+
+<br>

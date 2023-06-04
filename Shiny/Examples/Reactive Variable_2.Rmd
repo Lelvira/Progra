@@ -1,0 +1,25 @@
+---
+output: html_document
+title:  Shiny with reactive variables
+runtime: shiny
+---
+
+```{r, echo=FALSE}
+sliderInput(
+  inputId = "num1",
+  label = "Choose num1",
+  value = 0, min = -30, max = 30
+)
+
+sliderInput(
+  inputId = "num2",
+  label = "Choose num2",
+  value = 0, min = -30, max = 30
+)
+
+msum <- reactive(input$num1 + input$num2)
+x <- reactive(input$num1 + 10)
+y <- reactive(x() + input$num2)
+
+renderPrint(c(msum = msum(), x = x(), y = y()))
+```

@@ -1,0 +1,81 @@
+---
+title: "My First Flexdashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: yeti
+    #orientation: rows
+    source_code: embed
+runtime: shiny
+---
+
+```{r}
+require(ggplot2)
+theme_set(theme_bw())
+require(plotly)
+```
+
+
+## {.sidebar} 
+
+**How to use this app**
+
+Start by choosing a number, say $\mu$, using the slider below labeled "_Choose a mean_" (default value $0$). 
+One done, two random samples of size $10$ each will be generated. 
+
+As a result, you get three panels: 
+
+* Data, 
+* Data summary, and 
+* Data plot
+
+You can then introduce a title of your choice for the plot.  
+
+```{r, inputs}
+textInput(
+  inputId = "inp1a",
+  label = NULL,
+  placeholder = "Type a title here"
+)
+
+sliderInput(
+  inputId = "inp2a",
+  label = "Choose a mean",
+  value = 0, min = -30, max = 30
+)
+```
+
+```{r, reactive variables}
+dt <- reactive({
+  m <- input$inp2a
+  X <- rnorm(10, mean = m)
+  Y <- 1 + 2 * X + rnorm(10, sd = 0.2)
+  data.frame(X, Y)
+})
+```
+
+## {data-width=350}
+
+### Data {data-height=450}
+
+```{r}
+renderTable(dt())
+```
+
+### Data Summary 
+
+```{r}
+renderPrint(summary(dt()))
+```
+
+## 
+
+###  Data plot 
+
+```{r}
+renderPlotly({
+  p <- ggplot(dt(), aes(X, Y)) +
+    geom_point() +
+    labs(title = input$inp1a)
+  ggplotly(p)
+})
+```

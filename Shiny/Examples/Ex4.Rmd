@@ -1,0 +1,60 @@
+
+---
+title: "Dashboard title"
+output: 
+  flexdashboard::flex_dashboard:
+    theme: yeti
+    orientation: rows
+    source_code: embed
+#runtime: shiny
+---
+
+# Page I
+
+## {.sidebar} 
+
+Contents of the Sidebar column    
+of Page I
+
+## 
+
+### Panel A 
+
+Contents of Panel A
+
+##  
+
+### Panel B.1
+
+Contents of Panel B.1 
+
+### Panel B.2
+
+Contents of Panel B.2 
+
+# Page II
+
+## {.sidebar} 
+
+Contents of the Sidebar column    
+of Page II
+
+## 
+
+### Panel A.1
+
+Contents of Panel A.1
+
+### Panel A.2
+
+Contents of Panel A.2
+
+## {.tabset} 
+
+### Panel B.1
+
+Contents of Panel B.1
+
+### Panel B.2
+
+Contents of Panel B.2

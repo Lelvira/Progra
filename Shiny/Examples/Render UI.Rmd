@@ -1,0 +1,41 @@
+---
+output: html_document
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r selectInput}
+selectInput("data",
+  label = "Dataset",
+  choices = c("airquality", "cars", "mtcars", "iris")
+)
+```
+
+```{r, ReacVaraible}
+dt <- reactive({
+  # see ?get
+  get(input$data)
+})
+```
+
+```{r, ReacUi}
+renderUI({
+  selectInput("var",
+    "Select one or more variable(s)",
+    choices = names(dt()),
+    multiple = TRUE
+  )
+})
+```
+
+```{r, ReacOutputs}
+renderPrint({
+  # req() is needed to handle missing inputs
+  # see ?shiny::req or visit https://shiny.rstudio.com/articles/req.html
+  req(input$var %in% names(dt()))
+  summary(subset(dt(), select = input$var))
+})
+```

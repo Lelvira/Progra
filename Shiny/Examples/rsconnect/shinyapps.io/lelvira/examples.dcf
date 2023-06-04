@@ -1,0 +1,11 @@
+name: examples
+title:
+username:
+account: lelvira
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 9241936
+bundleId: 7301018
+url: https://lelvira.shinyapps.io/examples/
+when: 1685824368.35501
+lastSyncTime: 1685824368.35502
