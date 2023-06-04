@@ -1,0 +1,47 @@
+---
+title: ''
+output: html_document
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE, eval=F}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Paragraphs
+
+For line break test this double space for emphasis, *test* **this**
+***Wow*** ~~Wonderful~~ For horizontal line
+
+------------------------------------------------------------------------
+
+For lists : \* Test \* this
+
+For numbered list : 1. Test 3. this 2. Out
+
+For nested lists : \* Test *This* Out *Wow* Wondeful
+
+To quote text, \> Test this out
+
+For Link, [Test This
+Out](https://moodle.uclouvain.be/course/view.php?id=4003) Or without []
+
+For images test this ![](Transcript%20records%20Master.JPG)
+
+For code
+
+´´´r print("Test This") ´´´
+
+Or for inline code ´r print("Test This")´
+
+For tables use
+
+| Test | This | Out |
+|:-----|:----:|----:|
+| a    |  b   |   c |
+
+For math equation $\beta = 2$ or $$\beta = 2$$ To make comments use
+<!-- Wow this is a comment check this out --> Finally for empty space
+use     this wow

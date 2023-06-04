@@ -1,0 +1,114 @@
+---
+title: "Chap 1 Rmarkdown"
+author: "Elvira Lucas"
+date: "2023-02-17"
+output: 
+  html_document: 
+    theme: flatly
+    highlight: tango
+editor_options: 
+  chunk_output_type: console
+params:
+  Joueur: Ronaldo
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Head1
+
+Paramètres : `r params$Joueur`
+
+## Head2
+
+> When the solution is simple, God is answering.
+
+> ***LIST OF RESULTS***
+>
+> -   Result 1
+> -   Result 2
+>
+> Everything looks good.
+
+The following is a comment, <!-- THIS IS MY COMMENT --> so it will not be displayed in the final output document.
+
+The fowling paragrapher is commented out, <!-- 
+THIS IS MY COMMENT 1
+THIS IS MY COMMENT 2
+--> so nothing is shown.
+
+Options for knittr::kable :
+
+  - col.names
+  - align : can be used with several letter inclosed inside "", e.g. align = "lcclr" for left,center,center,left,right
+  - caption
+  - digits: can be a vector for each column (e.g. digits = c(2,3,4,4))
+  - To use math expression, set ´escape´ to FALSE and use`$`inside the "" (use double \ before like "$\\beta_0$")
+  - If you want several tables side by side, use a list of the different data.frames (kable(list(tab1,tab2), options...))
+
+When we want to switch the NA from the table for sth else, use ´options(knitr.kable.NA="sth else")´
+
+```{r, rows.print=5}
+head(cars) |>
+  knitr::kable(
+    caption = "First six observation in 'cars' data",
+    col.names = c("Speed of cars", "Distances taken to stop")) |>
+  kableExtra::kable_styling()
+```
+
+Options for kableExtra::kbl/kable_...:
+
+  * bootstrap_options : vector of options :
+      * striped : add striped lines
+      * hover : add highlighting 
+     * condensed
+  * full_width 
+  * position : position of the table and if you use float_right/left, the text appear beside
+  * font_size
+  * fixed_header : the header follows the page, to change color, use list(enabled=T, background = "color")
+  * add_header_above
+  * pack_rows : group rows pack_rows("name", first row, last row)
+  * Scroll_box : options width and height
+
+Options for DT::data_table:
+
+  * editable = "cell" : allow editing the value inside the cells, specification :
+     * editable = list(target = 'row', disable = list(columns = c(1, 3, 4)) to specify which columns
+  * row.names : logical
+  * colnames : vector, colnames = c('A Better Name' = 'Sepal.Width') to specify which column name to change (or use the number, 1 to the             row names)
+  * caption
+  * filter : add a filter with option "top" or "bottom"
+  * fillcontainer: logical, fill the container or not in the space
+  * options : list of :
+    * dom = 'lftipr' to add this options in the table where :
+      * l : length changing input control
+      * f : filtering input
+      * t : The table!
+      * i : Table information summary
+      * p : pagination control
+      * r : processing display element
+    * pagelength : the length of the table when show
+    * lengthMenu : vector with the proposed length of the table
+    * scrollX ou scrollY : in "000px", to change the size of the scrolling box
+
+```{r}
+mtcars |>
+  DT::datatable(
+    filter = "top",
+    options = list(pageLength = 5, scrollX = TRUE, dom = "ltp"))
+```
+
+```{r}
+head(cars) |>
+  knitr::kable(
+    caption = "This is the six first rows of the iris data",
+    col.names = c("Speed of cars", "Distances taken to stop")
+  )
+```
+
+```{r}
+iris2 <- head(iris)
+knitr::kable(iris2, col.names = gsub("[.]", " ", names(iris)))
+```
+
